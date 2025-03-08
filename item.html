@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="item-container">
+        <div class="logo">
+            <p class="lykke-badge">lykke</p>
+        </div>
+        <h2 id="item-name"></h2>
+        <p id="item-price" class="item-price"></p>
+        <img id="item-image" src="" alt="Item Image">
+
+        <div class="quantity-container">
+            <button onclick="changeQuantity(-1)">-</button>
+            <input type="number" id="quantity" value="1" min="1" oninput="updateTotal()">
+            <button onclick="changeQuantity(1)">+</button>
+        </div>
+
+        <div class="action-buttons">
+            <button class="cancel-btn" onclick="cancelItem()">Cancel item</button>
+            <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+        </div>
+
+       
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let itemName = localStorage.getItem('itemName');
+            let itemPrice = localStorage.getItem('itemPrice');
+            let itemImage = localStorage.getItem('itemImage');
+
+            if (itemName && itemPrice && itemImage) {
+                document.getElementById('item-name').innerText = itemName;
+                document.getElementById('item-price').innerText = 'PHP ' + itemPrice + '.00';
+                document.getElementById('item-image').src = itemImage;
+                document.getElementById('item-image').alt = itemName;
+                updateTotal(); 
+            } else {
+                console.error("Missing item data in localStorage");
+            }
+        });
+
+        function changeQuantity(amount) {
+            let quantity = document.getElementById('quantity');
+            let newValue = parseInt(quantity.value) + amount;
+            if (newValue >= 1) {
+                quantity.value = newValue;
+                updateTotal();
+            }
+        }
+
+        function updateTotal() {
+            let price = parseFloat(localStorage.getItem('itemPrice'));
+            let quantity = parseInt(document.getElementById('quantity').value);
+            let total = price * quantity;
+            document.getElementById('total-cost').innerText = 'PHP ' + total.toFixed(2);
+        }
+
+        function cancelItem() {
+            window.location.href = 'index.html';
+        }
+
+        function addToCart() {
+            let name = localStorage.getItem('itemName');
+            let price = parseFloat(localStorage.getItem('itemPrice'));
+            let quantity = parseInt(document.getElementById('quantity').value);
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            let existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ name, price, quantity });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(name + ' added to cart!');
+            updateTotal();
+        }
+
+        function checkout() {
+            window.location.href = 'cart.html'; 
+        }
+    </script>
+</body>
+</html>

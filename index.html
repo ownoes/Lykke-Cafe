@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lykke Cafe</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="logo.png" alt="Lykke Cafe">
+        </div>
+        <button class="category-btn" onclick="filterCategory('all', 'All Items')">
+            <img src="home-icon.png" alt="Home" style="width: 30px;"> Home
+        </button><br>
+        <button class="category-btn" onclick="filterCategory('drinks', 'Drinks')">
+            <img src="drinks-icon.png" alt="Drinks" style="width: 30px;"> Drinks
+        </button>
+        <button class="category-btn" onclick="filterCategory('pastry', 'Pastry')">
+            <img src="pastry-icon.png" alt="Pastry"  style="width: 30px;"> Pastry
+        </button>
+        <button class="category-btn" onclick="filterCategory('salad', 'Salad')">
+            <img src="salad-icon.png" alt="Salad"  style="width: 46px;"> Salad
+        </button>
+        <button class="category-btn" onclick="filterCategory('pizza', 'Pizza')">
+            <img src="pizza-icon.png" alt="Pizza"  style="width: 40px;"> Pizza
+        </button>
+        <button class="category-btn" onclick="filterCategory('pasta', 'Pasta')">
+            <img src="pasta-icon.png" alt="Pasta"  style="width: 40px;"> Pasta
+        </button>
+        <button class="category-btn" onclick="filterCategory('rice', 'Rice Meals')">
+            <img src="rice-icon.png" alt="Rice Meals"  style="width: 40px;"> Rice Meals
+        </button>
+        <button class="category-btn" onclick="filterCategory('sandwiches', 'Sandwiches')">
+            <img src="sandwhich-icon.png" alt="Sandwiches"  style="width: 40px;"> Sandwiches
+        </button>
+    </div>
+
+    <div class="content">
+        <h2 id="category-title">Item(s) of The Day</h2>
+        <div class="menu-items">
+            <div class="item card pasta" onclick="openItem('Chicken Pesto', 180, 'chicken_pesto.png')">
+                <img id="img-chicken-pesto" src="chicken_pesto.png" alt="Chicken Pesto">
+                <p>Chicken Pesto</p>
+                <p style="color: #e2d8d1;">PHP 180.00</p>
+            </div>
+            <div class="item card pastry" onclick="openItem('Oreo Cookie Croffle', 120, 'oreo_croffle.png')">
+                <img id="img-oreo-croffle" src="oreo_croffle.png" alt="Oreo Cookie Croffle">
+                <p>Oreo Cookie Croffle</p>
+                <p style="color: #e2d8d1;">PHP 120.00</p>
+            </div>
+            <div class="item card pastry" onclick="openItem('Pain Au Chocolat', 100, 'pain_au_chocolat.png')">
+                <img id="img-pain-au-chocolat" src="pain_au_chocolat.png" alt="Pain Au Chocolat">
+                <p>Pain Au Chocolat</p>
+                <p style="color: #e2d8d1;">PHP 100.00</p>
+            </div>
+            <div class="item card pasta" onclick="openItem('Carbonara', 175, 'carbonara.png')">
+                <img id="img-carbonara" src="carbonara.png" alt="Carbonara">
+                <p>Carbonara</p>
+                <p style="color: #e2d8d1;">PHP 175.00</p>
+            </div>
+        </div>
+    </div>
+
+   <div class="checkout-bar">
+    <p style="color: #71635a;">Total: PHP <span id="total-cost">0.00</span></p>
+    <button onclick="window.location.href='cart.html'">View Cart</button>
+</div>   
+</body>
+</html>
