@@ -14,7 +14,11 @@ body {
 
 .sidebar {
     width: 270px;
-    background: #f7f3f0; 
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #f7f3f0;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -56,6 +60,7 @@ body {
 
 
 .content {
+    margin-left: 270px;
     flex-grow: 1;
     padding: 20px;
     display: flex;
@@ -63,6 +68,8 @@ body {
     justify-content: flex-start;
     overflow-y: auto;
 }
+
+
 
 h2 {
     margin-top: 15px;

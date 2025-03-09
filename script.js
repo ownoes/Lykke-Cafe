@@ -1,19 +1,21 @@
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
 function updateTotalCost() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
     let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    
-    let cartTotal = document.getElementById('cart-total');  // Cart Page
-    let indexTotal = document.getElementById('total-cost'); // Index Page
+
+    let cartTotal = document.getElementById('cart-total');  
+    let indexTotal = document.getElementById('total-cost'); 
 
     if (cartTotal) {
         cartTotal.textContent = `PHP ${total.toFixed(2)}`;
     }
 
     if (indexTotal) {
-        indexTotal.textContent = total.toFixed(2);
+        indexTotal.textContent = `PHP ${total.toFixed(2)}`;
     }
+
+    localStorage.setItem('cart', JSON.stringify(cart)); 
 }
+
 
 
 function addToCart(name, price, imageSrc) {
@@ -61,7 +63,6 @@ function checkout() {
     }
 }
 
-// Functions for cart.html
 
 function updateCartDisplay() {
     const cartContainer = document.getElementById('cart-items');
@@ -69,10 +70,11 @@ function updateCartDisplay() {
     cartContainer.innerHTML = "";
 
     let total = 0;
-
+    
     if (cart.length === 0) {
         cartContainer.innerHTML = "<p>Your cart is empty.</p>";
         cartTotal.textContent = "PHP 0.00";
+        localStorage.removeItem('cart'); // Ensure localStorage is cleared
         return;
     }
 
@@ -84,7 +86,7 @@ function updateCartDisplay() {
         cartItem.classList.add("cart-item");
 
         cartItem.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image"> 
             <div class="cart-item-details">
                 <p>${item.name}</p>
                 <p>PHP ${item.price.toFixed(2)}</p>
@@ -103,6 +105,7 @@ function updateCartDisplay() {
     cartTotal.textContent = `PHP ${total.toFixed(2)}`;
     localStorage.setItem('cart', JSON.stringify(cart));
 }
+
 
 function changeQuantity(index, amount) {
     if (cart[index].quantity + amount > 0) {

@@ -49,12 +49,23 @@ function changeQuantity(index, amount) {
         cart.splice(index, 1);
     }
     updateCartDisplay();
+    updateTotalCost();  
 }
 
 function removeItem(index) {
-    cart.splice(index, 1);
-    updateCartDisplay();
+    cart.splice(index, 1); // Remove the item
+    localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart
+    updateCartDisplay(); 
+    updateTotalCost();  
+
+    if (cart.length === 0) {
+        localStorage.removeItem('cart'); // Completely clear the cart
+        document.getElementById('cart-items').innerHTML = "<p>Your cart is empty.</p>";
+        document.getElementById('cart-total').textContent = "PHP 0.00";
+    }
 }
+
+
 
 function completeOrder() {
     if (cart.length === 0) {
@@ -68,5 +79,7 @@ function completeOrder() {
     window.location.href = "index.html";
 }
 
-
-document.addEventListener("DOMContentLoaded", updateCartDisplay);
+document.addEventListener("DOMContentLoaded", () => {
+    updateCartDisplay();
+    updateTotalCost();  
+});
