@@ -74,7 +74,7 @@ function updateCartDisplay() {
     if (cart.length === 0) {
         cartContainer.innerHTML = "<p>Your cart is empty.</p>";
         cartTotal.textContent = "PHP 0.00";
-        localStorage.removeItem('cart'); // Ensure localStorage is cleared
+        localStorage.removeItem('cart'); 
         return;
     }
 
