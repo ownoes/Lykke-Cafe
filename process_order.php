@@ -29,7 +29,7 @@ if (!isset($data['cart']) || empty($data['cart'])) {
     exit;
 }
 
-$employeeID = 1; // Change this if employees log in
+$employeeID = 1; 
 
 $checkEmployee = "SELECT employeeID FROM employee WHERE employeeID = ?";
 $stmt_emp = $conn->prepare($checkEmployee);
@@ -82,7 +82,6 @@ foreach ($data['cart'] as $item) {
         exit;
     }
 
-    // ✅ Deduct ingredient usage from stock
     $ingredientQuery = "SELECT ingredientID, quantityUsed FROM ingredientusage WHERE menuItemID = ?";
     $stmt_ing = $conn->prepare($ingredientQuery);
     $stmt_ing->bind_param("i", $menuItemID);
@@ -92,7 +91,7 @@ foreach ($data['cart'] as $item) {
     while ($stmt_ing->fetch()) {
         $totalUsage = $quantityUsed * $item['quantity'];
 
-        $updateStock = "UPDATE stockdetails SET quantity = GREATEST(quantity - ?, 0) WHERE ingredientID = ?";
+        $updateStock = "UPDATE ingredient SET quantityOnHand = GREATEST(quantityOnHand - ?, 0) WHERE ingredientID = ?";
         $stmt_stock = $conn->prepare($updateStock);
         $stmt_stock->bind_param("di", $totalUsage, $ingredientID);
         $stmt_stock->execute();
