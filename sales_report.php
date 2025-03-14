@@ -1,16 +1,20 @@
-
 <?php
 require 'db_connect.php';
 
-$sql = "SELECT DATE(o.orderDate) AS orderDate, SUM(oi.quantity * m.price) AS totalSales
+$sql = "SELECT DATE(o.orderDate) AS orderDate, 
+               COALESCE(SUM(oi.quantity * m.price), 0) AS totalSales
         FROM orders o
-        JOIN orderitem oi ON o.orderID = oi.orderID
-        JOIN menuitem m ON oi.menuItemID = m.menuItemID
+        LEFT JOIN orderitem oi ON o.orderID = oi.orderID
+        LEFT JOIN menuitem m ON oi.menuItemID = m.menuItemID
         WHERE o.paymentStatus = 'Paid'
         GROUP BY DATE(o.orderDate)
         ORDER BY o.orderDate DESC";
 
 $result = $conn->query($sql);
+
+if (!$result) {
+    die("Query failed: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +27,7 @@ $result = $conn->query($sql);
     <table>
         <tr>
             <th>Date</th>
-            <th>Total Sales</th>
+            <th>Total Sales (PHP)</th>
         </tr>
         <?php while ($row = $result->fetch_assoc()): ?>
         <tr>

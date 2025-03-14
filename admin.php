@@ -1,6 +1,9 @@
 <?php
 session_start();
 require 'db_connect.php';
+
+// Get the requested page or default to dashboard
+$page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 ?>
 
 <!DOCTYPE html>
@@ -9,43 +12,28 @@ require 'db_connect.php';
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
+    <!-- Sidebar -->
     <div class="admin-sidebar">
         <h2>Admin Panel</h2>
         <ul>
-            <li><a href="view_orders.php">View Orders</a></li>
-            <li><a href="manage_stock.php">Manage Stock</a></li>
-            <li><a href="sales_report.php">View Sales Reports</a></li>
-            <li><a href="add_supply.php">Add Supply</a></li>
+            <li><a href="admin.php?page=dashboard">Dashboard</a></li>
+            <li><a href="admin.php?page=view_orders">View Orders</a></li>
+            <li><a href="admin.php?page=manage_stock">Manage Stock</a></li>
+            <li><a href="admin.php?page=sales_report">Sales Reports</a></li>
+            <li><a href="admin.php?page=add_supply">Add Supply</a></li>
         </ul>
     </div>
+
+    <!-- Main Content -->
     <div class="admin-content">
-        <h1>Welcome, Admin</h1>
-        <p>Select an option from the menu.</p>
-
-        <!-- Display Recent Orders -->
-        <h2>Recent Orders</h2>
-        <table border="1">
-            <tr>
-                <th>Order ID</th>
-                <th>Order Date</th>
-                <th>Payment Status</th>
-            </tr>
-            <?php
-            $result = $conn->query("SELECT orderID, orderDate, paymentStatus FROM orders ORDER BY orderDate DESC LIMIT 5");
-
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                            <td>{$row['orderID']}</td>
-                            <td>{$row['orderDate']}</td>
-                            <td>{$row['paymentStatus']}</td>
-                          </tr>";
-                }
-            } else {
-                echo "<tr><td colspan='3'>No recent orders.</td></tr>";
-            }
-            ?>
-        </table>
+        <?php
+        $allowed_pages = ['dashboard', 'view_orders', 'manage_stock', 'sales_report', 'add_supply'];
+        if (in_array($page, $allowed_pages)) {
+            include $page . ".php";
+        } else {
+            echo "<h2>Page Not Found</h2>";
+        }
+        ?>
     </div>
 </body>
 </html>
